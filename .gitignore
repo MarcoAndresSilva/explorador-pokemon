@@ -12,9 +12,10 @@ coverage/
 .env.*
 !.env.example
 
-# Contexto local del asistente de IA
+# Contexto local del asistente de IA y notas de estudio
 CLAUDE.md
 .claude/
+notas/
 
 # Logs
 *.log
