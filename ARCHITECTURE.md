@@ -28,7 +28,11 @@ Problema: explorar, buscar y ver detalle de Pokémon desde una web,
 └── D7 Contrato del BFF (deriva de D1 y de las pantallas del front)
     ├── GET /api/pokemon: catálogo y búsqueda en un mismo endpoint, paginado
     ├── GET /api/pokemon/:name: detalle
-    └── errores con forma única { code, message }
+    ├── errores con forma única { code, message }
+    │
+    └── D8 Validación en la entrada + traducción de errores en la capa HTTP
+        ├── ValidationPipe global estricto; el nombre se valida antes de llegar a PokéAPI
+        └── exception filter aplicado al controller
 ```
 
 ## Decisiones
@@ -42,6 +46,7 @@ Problema: explorar, buscar y ver detalle de Pokémon desde una web,
 | D5 | Hexagonal liviana: un puerto hacia PokéAPI y un servicio | Servicio acoplado a PokéAPI; hexagonal completa | Testear sin red y aislar el formato externo donde hay riesgo real; sin capas de más | Lista completa filtrada en memoria (~1.300 elementos, cacheada) |
 | D6 | Dominio sin dependencias; errores de dominio propios | Lanzar excepciones HTTP de Nest desde el adaptador | El núcleo no conoce HTTP; un exception filter traduce a 404/502 | Un archivo más (el filtro) |
 | D7 | Catálogo y búsqueda en un mismo endpoint | Endpoint de búsqueda separado | Buscar es filtrar el catálogo y devuelve la misma forma | Cambiar el contrato exige cambiar BFF y front a la vez |
+| D8 | `ValidationPipe` global (`whitelist`, `forbidNonWhitelisted`, `transform`) y nombre validado con `^[a-z0-9-]+$`; `PokemonExceptionFilter` en el controller | Validar a mano en el controller; filtro global | Entrada inválida se corta con 400 antes de tocar la lógica. PokéAPI responde 403 a nombres con caracteres especiales, que de otro modo se informarían como 502 | Rutas fuera de `/api/pokemon` usan el formato de error por defecto de Nest |
 
 ## Contrato del BFF
 
