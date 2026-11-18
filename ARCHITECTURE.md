@@ -37,7 +37,7 @@ Problema: explorar, buscar y ver detalle de Pokémon desde una web,
 | --- | --- | --- | --- | --- |
 | D1 | Catálogo, búsqueda parcial y detalle | Auth, BD, favoritos, SSR, i18n, e2e, evoluciones | Es lo que pide el enunciado; el resto no aporta al objetivo | Funcionalidad limitada a propósito |
 | D2 | Un repo, dos carpetas con su propio `package.json` | Dos repos; monorepo con Nx/workspaces | Una sola URL para clonar; sin código compartido, un monorepo no resuelve nada | Tipos del contrato declarados en los dos lados |
-| D3 | NestJS 11 (CommonJS) | NestJS 12 (ESM) con Vitest o con Jest experimental | Jest estable y ecosistema consolidado | Migrar a 12 más adelante (no cambia la arquitectura) |
+| D3 | NestJS 11 (CommonJS) | NestJS 12 (ESM) con Vitest o con Jest experimental | Jest estable y ecosistema consolidado | Las librerías `@nestjs/*` quedan en su línea compatible con Nest 11 (sus versiones nuevas también son ESM); migrar más adelante no cambia la arquitectura |
 | D4 | Angular 21 vía `npx @angular/cli@21` | Angular 22; CLI global (v20) | Cumple el enunciado y fija la versión en el proyecto | Ninguno relevante |
 | D5 | Hexagonal liviana: un puerto hacia PokéAPI y un servicio | Servicio acoplado a PokéAPI; hexagonal completa | Testear sin red y aislar el formato externo donde hay riesgo real; sin capas de más | Lista completa filtrada en memoria (~1.300 elementos, cacheada) |
 | D6 | Dominio sin dependencias; errores de dominio propios | Lanzar excepciones HTTP de Nest desde el adaptador | El núcleo no conoce HTTP; un exception filter traduce a 404/502 | Un archivo más (el filtro) |
