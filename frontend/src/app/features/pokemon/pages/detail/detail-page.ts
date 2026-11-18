@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { catchError, map, of, startWith, switchMap } from 'rxjs';
 import { DisplayNamePipe } from '../../../../shared/display-name.pipe';
@@ -44,7 +50,16 @@ const STAT_LABELS: Record<string, string> = {
 
 @Component({
   selector: 'app-detail-page',
-  imports: [RouterLink, DisplayNamePipe],
+  imports: [
+    RouterLink,
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatIconModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    DisplayNamePipe,
+  ],
   templateUrl: './detail-page.html',
   styleUrl: './detail-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

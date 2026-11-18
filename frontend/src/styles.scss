@@ -1,11 +1,22 @@
+@use '@angular/material' as mat;
+
+html {
+  color-scheme: light;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$red-palette,
+        theme-type: light,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
 :root {
-  --color-primary: #d62f2f;
-  --color-text: #1f2328;
-  --color-muted: #656d76;
-  --color-surface: #ffffff;
-  --color-background: #f4f5f7;
-  --color-border: #e1e4e8;
-  --radius: 12px;
+  --color-muted: var(--mat-sys-on-surface-variant);
+  --color-background: var(--mat-sys-surface-container-low);
 }
 
 *,
@@ -16,36 +27,21 @@
 
 body {
   margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
-  color: var(--color-text);
+  font: var(--mat-sys-body-large);
+  color: var(--mat-sys-on-surface);
   background: var(--color-background);
 }
 
-button {
-  font: inherit;
-  cursor: pointer;
-}
-
 .state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   padding: 3rem 1rem;
   text-align: center;
   color: var(--color-muted);
-}
 
-.button {
-  padding: 0.6rem 1.4rem;
-  border: none;
-  border-radius: 999px;
-  color: #fff;
-  background: var(--color-primary);
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: default;
+  p {
+    margin: 0;
   }
 }

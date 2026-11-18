@@ -1,16 +1,40 @@
-<label class="search">
-  <span class="search-label">Buscar por nombre</span>
-  <input
-    type="search"
-    placeholder="Ej: pika, char, saur…"
-    autocomplete="off"
-    [value]="search()"
-    (input)="onSearch($event)"
-  />
-</label>
+<section class="hero">
+  <h1>Explora el catálogo</h1>
+  <p>Busca un Pokémon por su nombre y elige uno para ver su ficha.</p>
+
+  <mat-form-field class="search" appearance="outline" subscriptSizing="dynamic">
+    <mat-label>Buscar por nombre</mat-label>
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      matInput
+      type="search"
+      placeholder="Ej: pika, char, saur"
+      autocomplete="off"
+      [value]="search()"
+      (input)="onSearch($event)"
+    />
+    @if (search()) {
+      <button
+        matIconButton
+        matSuffix
+        type="button"
+        aria-label="Limpiar búsqueda"
+        (click)="clearSearch()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </mat-form-field>
+</section>
 
 @if (status() !== 'loading' || pokemon().length > 0) {
-  <p class="summary">{{ total() }} Pokémon</p>
+  <p class="summary">
+    @if (search().trim()) {
+      {{ total() }} resultados para "{{ search().trim() }}"
+    } @else {
+      {{ total() }} Pokémon
+    }
+  </p>
 }
 
 @if (pokemon().length > 0) {
@@ -23,20 +47,27 @@
 
 @switch (status()) {
   @case ('loading') {
-    <p class="state" role="status">Cargando…</p>
+    <div class="state" role="status">
+      <mat-spinner diameter="40" />
+      <p>Cargando…</p>
+    </div>
   }
   @case ('error') {
     <div class="state" role="alert">
+      <mat-icon>cloud_off</mat-icon>
       <p>El servicio no está disponible en este momento.</p>
-      <button class="button" type="button" (click)="retry()">Reintentar</button>
+      <button matButton="filled" type="button" (click)="retry()">Reintentar</button>
     </div>
   }
   @case ('ready') {
     @if (pokemon().length === 0) {
-      <p class="state">No hay Pokémon que coincidan con "{{ search() }}".</p>
+      <div class="state">
+        <mat-icon>search_off</mat-icon>
+        <p>No hay Pokémon que coincidan con "{{ search().trim() }}".</p>
+      </div>
     } @else if (hasMore()) {
       <div class="more">
-        <button class="button" type="button" (click)="loadMore()">Cargar más</button>
+        <button matButton="filled" type="button" (click)="loadMore()">Cargar más</button>
       </div>
     }
   }

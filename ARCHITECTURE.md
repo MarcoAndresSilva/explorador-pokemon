@@ -16,7 +16,8 @@ Problema: explorar, buscar y ver detalle de Pokémon desde una web,
 ├── D4 Front: Angular 21, fijado por enunciado
 │   ├── standalone + signals + zoneless (defaults de la versión)
 │   ├── D10 Proxy de desarrollo hacia el BFF + HttpClient en un único servicio
-│   └── D11 Catálogo con botón "Cargar más" y páginas cargadas bajo demanda
+│   ├── D11 Catálogo con botón "Cargar más" y páginas cargadas bajo demanda
+│   └── D12 Angular Material para la interfaz
 │
 ├── D5 Arquitectura del BFF: hexagonal liviana
 │   ├── puerto solo hacia PokéAPI (única dependencia externa)
@@ -52,6 +53,7 @@ Problema: explorar, buscar y ver detalle de Pokémon desde una web,
 | D9 | Caché en memoria (1 hora), timeout de 5 segundos y configuración en `.env` con valores por defecto | Redis u otra librería de caché | Los datos casi no cambian y hay un solo servidor: guardarlos en memoria basta | La caché se pierde al reiniciar el servidor |
 | D10 | Proxy de Angular (`/api` → `localhost:3000`) y un único servicio `PokemonApi` con `HttpClient` | Llamar al BFF por URL absoluta; `httpResource` (experimental); interceptor de errores | El navegador ve un solo origen y no necesita CORS en local. Los errores se reducen a dos casos que la pantalla sabe mostrar: no encontrado o servicio no disponible | El contrato se repite en los modelos del front (D2) |
 | D11 | Botón "Cargar más" (24 por vez) y rutas con carga diferida | Paginación con números; scroll infinito | Explorar es recorrer: sumar resultados es más cómodo que saltar de página y más simple y accesible que el scroll infinito | La lista crece en memoria mientras se carga más |
+| D12 | Angular Material (tema Material 3, paleta roja) para barra, buscador, tarjetas, chips, barras de progreso y estados | Estilos propios desde cero; otra librería de componentes | Librería oficial del ecosistema: componentes accesibles y consistentes sin escribir CSS de base. No cambia la lógica, solo la capa visual | Una dependencia más y un bundle algo mayor; fuentes cargadas desde Google Fonts |
 
 ## Contrato del BFF
 

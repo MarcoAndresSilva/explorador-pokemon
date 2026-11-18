@@ -1,67 +1,74 @@
 import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { DisplayNamePipe } from '../../../../shared/display-name.pipe';
 import { PokemonSummary } from '../../models/pokemon.models';
 
 @Component({
   selector: 'app-pokemon-card',
-  imports: [RouterLink, DisplayNamePipe],
+  imports: [RouterLink, MatCardModule, MatIconModule, DisplayNamePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <a class="card" [routerLink]="['/pokemon', pokemon().name]">
-      @if (imageFailed()) {
-        <div class="placeholder" aria-hidden="true">?</div>
-      } @else {
-        <img
-          [src]="pokemon().image"
-          [alt]="pokemon().name | displayName"
-          loading="lazy"
-          (error)="imageFailed.set(true)"
-        />
-      }
-      <span class="number">#{{ pokemon().id }}</span>
-      <span class="name">{{ pokemon().name | displayName }}</span>
+    <a class="link" [routerLink]="['/pokemon', pokemon().name]">
+      <mat-card class="card" appearance="outlined">
+        @if (imageFailed()) {
+          <mat-icon class="placeholder" aria-hidden="true">image_not_supported</mat-icon>
+        } @else {
+          <img
+            [src]="pokemon().image"
+            [alt]="pokemon().name | displayName"
+            loading="lazy"
+            (error)="imageFailed.set(true)"
+          />
+        }
+        <span class="number">N.º {{ pokemon().id }}</span>
+        <span class="name">{{ pokemon().name | displayName }}</span>
+      </mat-card>
     </a>
   `,
   styles: `
+    .link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      border-radius: 12px;
+    }
     .card {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1rem;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius);
-      background: var(--color-surface);
-      color: inherit;
-      text-decoration: none;
+      padding: 1rem 0.75rem;
       transition:
         transform 0.15s ease,
         box-shadow 0.15s ease;
     }
-    .card:hover,
-    .card:focus-visible {
+    .link:hover .card,
+    .link:focus-visible .card {
       transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgb(0 0 0 / 8%);
+      box-shadow: var(--mat-sys-level3);
     }
-    img,
-    .placeholder {
+    img {
       width: 120px;
       height: 120px;
       object-fit: contain;
     }
     .placeholder {
-      display: grid;
-      place-items: center;
-      font-size: 2.5rem;
-      color: var(--color-border);
+      width: 120px;
+      height: 120px;
+      font-size: 64px;
+      line-height: 120px;
+      text-align: center;
+      color: var(--mat-sys-outline-variant);
     }
     .number {
-      font-size: 0.8rem;
-      color: var(--color-muted);
+      font: var(--mat-sys-label-medium);
+      color: var(--mat-sys-on-surface-variant);
     }
     .name {
-      font-weight: 600;
+      font: var(--mat-sys-title-medium);
       text-transform: capitalize;
+      text-align: center;
     }
   `,
 })

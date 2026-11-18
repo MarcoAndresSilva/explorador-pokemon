@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subject, catchError, debounceTime, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { PokemonCard } from '../../components/pokemon-card/pokemon-card';
 import { PokemonApi } from '../../data-access/pokemon-api';
@@ -16,7 +21,14 @@ interface PageRequest {
 
 @Component({
   selector: 'app-catalog-page',
-  imports: [PokemonCard],
+  imports: [
+    PokemonCard,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './catalog-page.html',
   styleUrl: './catalog-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,6 +60,10 @@ export class CatalogPage {
 
   protected onSearch(event: Event): void {
     this.search.set((event.target as HTMLInputElement).value);
+  }
+
+  protected clearSearch(): void {
+    this.search.set('');
   }
 
   protected loadMore(): void {

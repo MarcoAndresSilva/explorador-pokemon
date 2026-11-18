@@ -1,18 +1,26 @@
-<a class="back" routerLink="/pokemon">← Volver al catálogo</a>
+<a matButton routerLink="/pokemon" class="back">
+  <mat-icon>arrow_back</mat-icon>
+  Volver al catálogo
+</a>
 
 @switch (state().status) {
   @case ('loading') {
-    <p class="state" role="status">Cargando…</p>
+    <div class="state" role="status">
+      <mat-spinner diameter="40" />
+      <p>Cargando…</p>
+    </div>
   }
   @case ('not-found') {
     <div class="state" role="alert">
+      <mat-icon>search_off</mat-icon>
       <p>No encontramos ningún Pokémon llamado "{{ name() }}".</p>
     </div>
   }
   @case ('unavailable') {
     <div class="state" role="alert">
+      <mat-icon>cloud_off</mat-icon>
       <p>El servicio no está disponible en este momento.</p>
-      <button class="button" type="button" (click)="retry()">Reintentar</button>
+      <button matButton="filled" type="button" (click)="retry()">Reintentar</button>
     </div>
   }
 }
@@ -20,24 +28,24 @@
 @if (state(); as current) {
   @if (current.status === 'ready') {
     @let pokemon = current.pokemon;
-    <article class="detail">
+    <mat-card class="detail" appearance="outlined">
       <div class="artwork">
         @if (pokemon.image) {
           <img [src]="pokemon.image" [alt]="pokemon.name | displayName" />
         } @else {
-          <div class="placeholder" aria-hidden="true">?</div>
+          <mat-icon class="placeholder" aria-hidden="true">image_not_supported</mat-icon>
         }
       </div>
 
       <div class="info">
-        <span class="number">#{{ pokemon.id }}</span>
+        <span class="number">N.º {{ pokemon.id }}</span>
         <h1>{{ pokemon.name | displayName }}</h1>
 
-        <ul class="types">
+        <mat-chip-set aria-label="Tipos">
           @for (type of pokemon.types; track type) {
-            <li class="type type--{{ type }}">{{ typeLabel(type) }}</li>
+            <mat-chip class="type type--{{ type }}" disableRipple>{{ typeLabel(type) }}</mat-chip>
           }
-        </ul>
+        </mat-chip-set>
 
         <dl class="facts">
           <div>
@@ -64,11 +72,15 @@
             <li>
               <span class="stat-name">{{ statLabel(stat.name) }}</span>
               <span class="stat-value">{{ stat.value }}</span>
-              <span class="bar"><span [style.width.%]="statPercent(stat.value)"></span></span>
+              <mat-progress-bar
+                mode="determinate"
+                [value]="statPercent(stat.value)"
+                [attr.aria-label]="statLabel(stat.name)"
+              />
             </li>
           }
         </ul>
       </div>
-    </article>
+    </mat-card>
   }
 }

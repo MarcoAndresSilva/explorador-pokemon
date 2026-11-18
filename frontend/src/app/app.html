@@ -1,6 +1,9 @@
-<header class="header">
-  <a class="brand" routerLink="/pokemon">Explorador de Pokémon</a>
-</header>
+<mat-toolbar class="toolbar">
+  <a class="brand" routerLink="/pokemon">
+    <mat-icon aria-hidden="true">catching_pokemon</mat-icon>
+    <span>Explorador de Pokémon</span>
+  </a>
+</mat-toolbar>
 
 <main class="content">
   <router-outlet />
