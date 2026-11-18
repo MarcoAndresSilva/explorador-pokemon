@@ -30,9 +30,9 @@ Problema: explorar, buscar y ver detalle de Pokémon desde una web,
     ├── GET /api/pokemon/:name: detalle
     ├── errores con forma única { code, message }
     │
-    └── D8 Validación en la entrada + traducción de errores en la capa HTTP
-        ├── ValidationPipe global estricto; el nombre se valida antes de llegar a PokéAPI
-        └── exception filter aplicado al controller
+    └── D8 Validar la entrada y responder errores con un formato único
+        │
+        └── D9 Caché en memoria, timeout y configuración en .env
 ```
 
 ## Decisiones
@@ -46,7 +46,8 @@ Problema: explorar, buscar y ver detalle de Pokémon desde una web,
 | D5 | Hexagonal liviana: un puerto hacia PokéAPI y un servicio | Servicio acoplado a PokéAPI; hexagonal completa | Testear sin red y aislar el formato externo donde hay riesgo real; sin capas de más | Lista completa filtrada en memoria (~1.300 elementos, cacheada) |
 | D6 | Dominio sin dependencias; errores de dominio propios | Lanzar excepciones HTTP de Nest desde el adaptador | El núcleo no conoce HTTP; un exception filter traduce a 404/502 | Un archivo más (el filtro) |
 | D7 | Catálogo y búsqueda en un mismo endpoint | Endpoint de búsqueda separado | Buscar es filtrar el catálogo y devuelve la misma forma | Cambiar el contrato exige cambiar BFF y front a la vez |
-| D8 | `ValidationPipe` global (`whitelist`, `forbidNonWhitelisted`, `transform`) y nombre validado con `^[a-z0-9-]+$`; `PokemonExceptionFilter` en el controller | Validar a mano en el controller; filtro global | Entrada inválida se corta con 400 antes de tocar la lógica. PokéAPI responde 403 a nombres con caracteres especiales, que de otro modo se informarían como 502 | Rutas fuera de `/api/pokemon` usan el formato de error por defecto de Nest |
+| D8 | Validar los parámetros antes de procesarlos y responder errores con forma `{ code, message }` | Validar a mano en cada método | Un parámetro inválido se rechaza con 400 sin llegar a la lógica. Un nombre con caracteres raros se rechaza antes de llamar a PokéAPI | Ninguno relevante |
+| D9 | Caché en memoria (1 hora), timeout de 5 segundos y configuración en `.env` con valores por defecto | Redis u otra librería de caché | Los datos casi no cambian y hay un solo servidor: guardarlos en memoria basta | La caché se pierde al reiniciar el servidor |
 
 ## Contrato del BFF
 

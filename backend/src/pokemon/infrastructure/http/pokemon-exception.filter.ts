@@ -46,7 +46,7 @@ export class PokemonExceptionFilter implements ExceptionFilter {
       return error(
         HttpStatus.BAD_GATEWAY,
         'EXTERNAL_SERVICE_ERROR',
-        exception.message,
+        'Pokémon data source is unavailable',
       );
     }
 
