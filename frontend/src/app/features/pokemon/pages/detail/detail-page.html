@@ -1,0 +1,74 @@
+<a class="back" routerLink="/pokemon">← Volver al catálogo</a>
+
+@switch (state().status) {
+  @case ('loading') {
+    <p class="state" role="status">Cargando…</p>
+  }
+  @case ('not-found') {
+    <div class="state" role="alert">
+      <p>No encontramos ningún Pokémon llamado "{{ name() }}".</p>
+    </div>
+  }
+  @case ('unavailable') {
+    <div class="state" role="alert">
+      <p>El servicio no está disponible en este momento.</p>
+      <button class="button" type="button" (click)="retry()">Reintentar</button>
+    </div>
+  }
+}
+
+@if (state(); as current) {
+  @if (current.status === 'ready') {
+    @let pokemon = current.pokemon;
+    <article class="detail">
+      <div class="artwork">
+        @if (pokemon.image) {
+          <img [src]="pokemon.image" [alt]="pokemon.name | displayName" />
+        } @else {
+          <div class="placeholder" aria-hidden="true">?</div>
+        }
+      </div>
+
+      <div class="info">
+        <span class="number">#{{ pokemon.id }}</span>
+        <h1>{{ pokemon.name | displayName }}</h1>
+
+        <ul class="types">
+          @for (type of pokemon.types; track type) {
+            <li class="type type--{{ type }}">{{ typeLabel(type) }}</li>
+          }
+        </ul>
+
+        <dl class="facts">
+          <div>
+            <dt>Altura</dt>
+            <dd>{{ pokemon.heightM }} m</dd>
+          </div>
+          <div>
+            <dt>Peso</dt>
+            <dd>{{ pokemon.weightKg }} kg</dd>
+          </div>
+          <div>
+            <dt>Habilidades</dt>
+            <dd class="capitalize">
+              @for (ability of pokemon.abilities; track ability; let last = $last) {
+                {{ ability | displayName }}{{ last ? '' : ', ' }}
+              }
+            </dd>
+          </div>
+        </dl>
+
+        <h2>Estadísticas base</h2>
+        <ul class="stats">
+          @for (stat of pokemon.stats; track stat.name) {
+            <li>
+              <span class="stat-name">{{ statLabel(stat.name) }}</span>
+              <span class="stat-value">{{ stat.value }}</span>
+              <span class="bar"><span [style.width.%]="statPercent(stat.value)"></span></span>
+            </li>
+          }
+        </ul>
+      </div>
+    </article>
+  }
+}

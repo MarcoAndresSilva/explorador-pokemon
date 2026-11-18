@@ -1,0 +1,156 @@
+.back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 2rem;
+  padding: 2rem;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+  }
+}
+
+.artwork {
+  display: grid;
+  place-items: center;
+
+  img,
+  .placeholder {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
+
+  .placeholder {
+    display: grid;
+    place-items: center;
+    font-size: 5rem;
+    color: var(--color-border);
+  }
+}
+
+.number {
+  color: var(--color-muted);
+}
+
+h1 {
+  margin: 0.2rem 0 0.8rem;
+  text-transform: capitalize;
+}
+
+h2 {
+  margin-top: 1.5rem;
+  font-size: 1.05rem;
+}
+
+.types {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.type {
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  background: var(--color-muted);
+}
+
+// Colores por tipo (los 18 tipos de PokéAPI).
+$type-colors: (
+  normal: #9fa19f,
+  fire: #e8622c,
+  water: #3d8fd6,
+  grass: #4e9f3d,
+  electric: #e0b000,
+  ice: #4fc1d9,
+  fighting: #c03028,
+  poison: #8f42a3,
+  ground: #a97b3c,
+  flying: #7c94d6,
+  psychic: #e14f7f,
+  bug: #8a9a1b,
+  rock: #a89048,
+  ghost: #6b4f8f,
+  dragon: #5060e1,
+  dark: #4f3f3d,
+  steel: #5f8fa3,
+  fairy: #d685ad,
+);
+
+@each $type, $color in $type-colors {
+  .type--#{$type} {
+    background: $color;
+  }
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+
+  dt {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
+  dd {
+    margin: 0.2rem 0 0;
+    font-weight: 600;
+  }
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.stats {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    grid-template-columns: 9rem 2.5rem 1fr;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+.stat-name {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.stat-value {
+  font-weight: 600;
+  text-align: right;
+}
+
+.bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-background);
+
+  span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--color-primary);
+  }
+}

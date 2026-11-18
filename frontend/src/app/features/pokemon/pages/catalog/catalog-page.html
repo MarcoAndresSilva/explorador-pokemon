@@ -1,0 +1,43 @@
+<label class="search">
+  <span class="search-label">Buscar por nombre</span>
+  <input
+    type="search"
+    placeholder="Ej: pika, char, saur…"
+    autocomplete="off"
+    [value]="search()"
+    (input)="onSearch($event)"
+  />
+</label>
+
+@if (status() !== 'loading' || pokemon().length > 0) {
+  <p class="summary">{{ total() }} Pokémon</p>
+}
+
+@if (pokemon().length > 0) {
+  <ul class="grid">
+    @for (item of pokemon(); track item.id) {
+      <li><app-pokemon-card [pokemon]="item" /></li>
+    }
+  </ul>
+}
+
+@switch (status()) {
+  @case ('loading') {
+    <p class="state" role="status">Cargando…</p>
+  }
+  @case ('error') {
+    <div class="state" role="alert">
+      <p>El servicio no está disponible en este momento.</p>
+      <button class="button" type="button" (click)="retry()">Reintentar</button>
+    </div>
+  }
+  @case ('ready') {
+    @if (pokemon().length === 0) {
+      <p class="state">No hay Pokémon que coincidan con "{{ search() }}".</p>
+    } @else if (hasMore()) {
+      <div class="more">
+        <button class="button" type="button" (click)="loadMore()">Cargar más</button>
+      </div>
+    }
+  }
+}
