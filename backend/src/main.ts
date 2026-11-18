@@ -9,7 +9,6 @@ async function bootstrap() {
   const config = app.get<ConfigService<AppConfig, true>>(ConfigService);
 
   app.setGlobalPrefix('api');
-  app.enableCors({ origin: config.get('corsOrigin', { infer: true }) });
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
