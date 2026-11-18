@@ -14,7 +14,8 @@ Problema: explorar, buscar y ver detalle de Pokémon desde una web,
 │   └── Jest estable, sin modo experimental de Node
 │
 ├── D4 Front: Angular 21, fijado por enunciado
-│   └── standalone + signals + zoneless (defaults de la versión)
+│   ├── standalone + signals + zoneless (defaults de la versión)
+│   └── D10 Proxy de desarrollo hacia el BFF + HttpClient en un único servicio
 │
 ├── D5 Arquitectura del BFF: hexagonal liviana
 │   ├── puerto solo hacia PokéAPI (única dependencia externa)
@@ -48,6 +49,7 @@ Problema: explorar, buscar y ver detalle de Pokémon desde una web,
 | D7 | Catálogo y búsqueda en un mismo endpoint | Endpoint de búsqueda separado | Buscar es filtrar el catálogo y devuelve la misma forma | Cambiar el contrato exige cambiar BFF y front a la vez |
 | D8 | Validar los parámetros antes de procesarlos y responder errores con forma `{ code, message }` | Validar a mano en cada método | Un parámetro inválido se rechaza con 400 sin llegar a la lógica. Un nombre con caracteres raros se rechaza antes de llamar a PokéAPI | Ninguno relevante |
 | D9 | Caché en memoria (1 hora), timeout de 5 segundos y configuración en `.env` con valores por defecto | Redis u otra librería de caché | Los datos casi no cambian y hay un solo servidor: guardarlos en memoria basta | La caché se pierde al reiniciar el servidor |
+| D10 | Proxy de Angular (`/api` → `localhost:3000`) y un único servicio `PokemonApi` con `HttpClient` | Llamar al BFF por URL absoluta; `httpResource` (experimental); interceptor de errores | El navegador ve un solo origen y no necesita CORS en local. Los errores se reducen a dos casos que la pantalla sabe mostrar: no encontrado o servicio no disponible | El contrato se repite en los modelos del front (D2) |
 
 ## Contrato del BFF
 
