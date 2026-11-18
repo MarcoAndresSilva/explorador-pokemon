@@ -1,0 +1,28 @@
+# Dependencias
+node_modules/
+
+# Builds y caches de herramientas
+dist/
+.angular/
+coverage/
+*.tsbuildinfo
+
+# Variables de entorno (solo se versiona el ejemplo)
+.env
+.env.*
+!.env.example
+
+# Contexto local del asistente de IA
+CLAUDE.md
+.claude/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor y sistema operativo
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
